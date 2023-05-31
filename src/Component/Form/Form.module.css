@@ -31,3 +31,12 @@
   padding-top: 40px;
   border-top: 1px solid rgba(46, 125, 50, 0.5);
 }
+
+.error {
+  display: block;
+  color: red;
+}
+
+input.error {
+  border-color: red;
+}

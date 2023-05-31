@@ -1,184 +1,110 @@
-import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import s from "./Form.module.css";
+import * as Yup from "yup";
 
-const Form = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [streetAddressL2, setStreetAddressL2] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [postal, setPostal] = useState("");
+const schema = Yup.object().shape({
+  firstName: Yup.string().required("Поле обязательное!!"),
+  lastName: Yup.string().required("Поле обязательное!!"),
+  streetAddress: Yup.string(),
+  streetAddressL2: Yup.string(),
+  email: Yup.string().email("Введите Email верно!"),
+  phone: Yup.string().min(10, "Введите верно  номер").max(10, "Введите верно  номер").required("Поле обязательное!!"),
+  postal: Yup.string().min(2),
+  city: Yup.string(),
+  state: Yup.string(),
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      firstName,
-      lastName,
-      streetAddress,
-      streetAddressL2,
-      city,
-      state,
-      email,
-      phone,
-      postal,
-    };
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  streetAddress: "",
+  streetAddressL2: "",
+  city: "",
+  state: "",
+  email: "",
+  phone: "",
+  postal: "",
+};
 
-    console.log(formData);
-    setFirstName("");
-    setLastName();
-    setStreetAddress();
-    setStreetAddressL2();
-    setCity();
-    setState();
-    setEmail();
-    setPhone();
-    setPostal();
-  };
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    switch (name) {
-      case "firstName":
-        return setFirstName(value);
-
-      case "lastName":
-        return setLastName(value);
-
-      case "streetAddress":
-        return setStreetAddress(value);
-
-      case "streetAddressL2":
-        return setStreetAddressL2(value);
-
-      case "city":
-        return setCity(value);
-
-      case "state":
-        return setState(value);
-
-      case "email":
-        return setEmail(value);
-
-      case "phone":
-        return setPhone(value);
-
-      case "postal":
-        return setPostal(value);
-
-      default:
-        return;
-    }
+const MyForm = () => {
+  const handleSubmit = (values, actions) => {
+    console.log(values);
+    actions.resetForm();
   };
 
   return (
-    <div>
-      <h3 className={s.title}>Form-Test</h3>
-      <form className={s.form} onSubmit={handleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={schema}>
+      <Form className={s.form}>
         <div>
           <Typography variant="h5" component="h5" gutterBottom>
-            Full Name <span style={{ color: "red" }}>*</span>
+            Full Name<span style={{ color: "red" }}>*</span>
           </Typography>
           <div className={s.smallWrapper}>
-            <TextField
-              required
-              type="text"
+            <Field
+              as={TextField}
               label="First Name"
-              name="firstName"
-              value={firstName}
-              onChange={handleChange}
-            />
-            <TextField
-              required
               type="text"
+              name="firstName"
+              helperText={<ErrorMessage name="firstName" component="span" style={{ color: "red" }} />}
+              required
+            />
+            <Field
+              as={TextField}
               label="Last Name"
+              type="text"
               name="lastName"
-              value={lastName}
-              onChange={handleChange}
+              helperText={<ErrorMessage name="lastName" component="span" style={{ color: "red" }} />}
+              required
             />
           </div>
         </div>
 
         <div>
           <Typography variant="h5" component="h5" gutterBottom>
-            Address <span style={{ color: "red" }}>*</span>
+            Address<span style={{ color: "red" }}>*</span>
           </Typography>
+
           <div className={s.adressWrapper}>
-            <TextField
-              required
-              variant="outlined"
-              type="text"
-              label="Street address"
-              fullWidth
-              value={streetAddress}
-              name="streetAddress"
-              onChange={handleChange}
-            />
-            <TextField
-              required
-              type="text"
-              value={streetAddressL2}
-              name="streetAddressL2"
-              onChange={handleChange}
-              label="Street address L2"
-              className={s.inputBig}
-            />
-
+            <Field as={TextField} label="Street Address" type="text" name="streetAddress" required />
+            <Field as={TextField} label="Street Address L2" type="text" name="streetAddressL2" />
             <div className={s.smallWrapper}>
-              <TextField required type="text" value={city} name="city" onChange={handleChange} label="City" />
-              <TextField
-                required
-                type="text"
-                value={state}
-                name="state"
-                onChange={handleChange}
-                label="State / Province"
-              />
+              <Field as={TextField} label="City" type="text" name="city" />
+              <ErrorMessage name="city" />
+              <Field as={TextField} label="State Province" type="text" name="state" />
             </div>
-
-            <TextField
-              type="number"
-              required
-              label="Postal / Zip Code"
-              name="postal"
-              value={postal}
-              onChange={handleChange}
-            />
+            <Field as={TextField} label="Postal" type="text" name="postal" />
           </div>
         </div>
 
         <div className={s.smallWrapperBottom}>
           <Typography variant="h5" component="h5" gutterBottom>
-            Phone number <span style={{ color: "red" }}>*</span>
+            Phone number<span style={{ color: "red" }}>*</span>
           </Typography>
-          <TextField
-            required
+          <Field
+            as={TextField}
+            label="Phone Number"
             type="tel"
-            label="Phone number"
             name="phone"
-            value={phone}
-            onChange={handleChange}
             placeholder="(000)000-00-00"
+            required
+            helperText={<ErrorMessage name="phone" component="span" style={{ color: "red" }} />}
           />
         </div>
 
         <div className={s.smallWrapperBottom}>
           <Typography variant="h5" component="h5" gutterBottom>
-            Email <span style={{ color: "red" }}>*</span>
+            Email
           </Typography>
-          <TextField
-            required
+          <Field
+            as={TextField}
+            label="E-mail"
             type="email"
-            label="Email"
             name="email"
-            value={email}
-            onChange={handleChange}
             placeholder="email@yahoo.com"
+            helperText={<ErrorMessage name="email" component="span" style={{ color: "red" }} />}
           />
         </div>
         <div className={s.buttonWrapp}>
@@ -186,9 +112,9 @@ const Form = () => {
             Submit
           </Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </Formik>
   );
 };
 
-export default Form;
+export default MyForm;
