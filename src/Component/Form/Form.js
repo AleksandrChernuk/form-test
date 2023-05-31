@@ -30,6 +30,15 @@ const Form = () => {
     };
 
     console.log(formData);
+    setFirstName("");
+    setLastName();
+    setStreetAddress();
+    setStreetAddressL2();
+    setCity();
+    setState();
+    setEmail();
+    setPhone();
+    setPostal();
   };
 
   const handleChange = (e) => {
