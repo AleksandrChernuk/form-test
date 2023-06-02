@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Container, Typography, TextField, Button, Grid } from "@mui/material";
-import { schema } from "../services/schems";
+import { schema } from "../../services/schems";
 
 const initialValues = {
   firstName: "",
@@ -21,13 +21,13 @@ const MyForm = () => {
   };
 
   return (
-    <Container maxWidth="md" pa>
+    <Container maxWidth="md" style={{ marginTop: "40px", marginBottom: "40px" }}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={schema}>
         <Form>
           <Grid container rowSpacing={4} alignItems={"center"} justifyContent="center">
             <Grid item md={12} sm={12} xs={12}>
               <Typography variant="h5" component="h5" gutterBottom>
-                Full Name<span style={{ color: "red" }}>*</span>
+                Full Name <span style={{ color: "red" }}>*</span>
               </Typography>
               <Grid item>
                 <Grid container spacing={2}>
@@ -59,7 +59,7 @@ const MyForm = () => {
 
             <Grid item md={12} sm={12} xs={12}>
               <Typography variant="h5" component="h5" gutterBottom>
-                Address<span style={{ color: "red" }}>*</span>
+                Address <span style={{ color: "red" }}>*</span>
               </Typography>
 
               <Grid container rowSpacing={2}>
@@ -103,7 +103,7 @@ const MyForm = () => {
 
             <Grid item md={12} sm={12} xs={12}>
               <Typography variant="h5" component="h5" gutterBottom>
-                Phone number<span style={{ color: "red" }}>*</span>
+                Phone number <span style={{ color: "red" }}>*</span>
               </Typography>
 
               <Grid container>
