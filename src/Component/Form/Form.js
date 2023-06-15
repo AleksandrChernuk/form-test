@@ -21,7 +21,7 @@ const MyForm = () => {
   };
 
   return (
-    <Container maxWidth="md" style={{ marginTop: "40px", marginBottom: "40px" }}>
+    <Container maxWidth="md" style={{ marginBottom: "40px" }}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={schema}>
         <Form>
           <Grid container rowSpacing={4} alignItems={"center"} justifyContent="center">
